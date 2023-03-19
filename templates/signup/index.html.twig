@@ -1,0 +1,11 @@
+{% extends 'form.card.html.twig' %}
+
+{% block form %}
+    {{ form_start(signupForm) }}
+        {{ form_row(signupForm.username, {'attr': {'placeholder': 'Enter a username'}}) }}
+        {{ form_row(signupForm.password, {'attr': {'placeholder': 'Enter a password'}}) }}
+        {{ form_row(signupForm.confirmPassword, {'attr': {'placeholder': 'Confirm the password'}}) }}
+        {{ form_rest(signupForm) }}
+        <span class='form-text'>Already have an account? <a href={{ path('app_login') }}>Log in</a></span>
+    {{ form_end(signupForm) }}
+{% endblock %}

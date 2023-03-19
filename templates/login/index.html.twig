@@ -1,0 +1,30 @@
+{% extends 'form.card.html.twig' %}
+
+{% block form %}
+    {% if form_errors(loginForm) %}
+        <div class="alert alert-danger" role="alert">
+            {{ form_errors(loginForm) }}
+        </div>
+    {% endif %}
+    {% if app.user %}
+        <div class="alert alert-warning" role="alert">
+            You are already logged in as {{ app.user.username }}, but you can log in as a different account with this page.
+        </div>
+    {% endif %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {{ form_start(loginForm) }}
+        {{ form_row(loginForm.username, {'attr': {'placeholder': 'Enter your username', 'value': lastUsername}}) }}
+        {{ form_row(loginForm.password, {'attr': {'placeholder': 'Enter your password'}}) }}
+        {{ form_rest(loginForm) }}
+
+        {% if app.user == null %}
+            <span class='form-text'>Don't yet have an account? <a href={{ path('app_signup') }}>Sign up</a></span>
+        {% endif %}
+    {{ form_end(loginForm) }}
+{% endblock %}

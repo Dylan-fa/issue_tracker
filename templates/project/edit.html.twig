@@ -1,0 +1,25 @@
+{% extends '/project/card.nav.html.twig' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="col col-md-6">
+            <div class="w-100">
+                <div {{ stimulus_controller('markdown') }}>
+                    {{ form_start( projectForm ) }}
+                        {{ form_row( projectForm.name, {'attr': {'data-action': 'input->title-edit#render'}}) }}
+                        {{ form_row( projectForm.description, {'attr': {'data-markdown-target': 'field'}} ) }}
+                        <button class="btn btn-sm mb-2 btn-success" type="button" data-bs-toggle="modal" data-bs-target="#previewModal">
+                            Preview markdown
+                        </button>
+                        <span class='fs-6 ms-3 form-text'>Help with markdown? 
+                            <a href=https://github.github.com/gfm/>GitHub flavored markdown specification</a>
+                        </span>
+                        {{ form_rest( projectForm ) }}
+                    {{ form_end( projectForm ) }}
+
+                    {% include 'markdown_modal.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

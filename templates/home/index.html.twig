@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row mt-2 ms-2 me-2">
+        <div class="col-md-4 col-12 mb-2">
+            <div class="card">
+                <div class="card-header">
+                    Issues assigned to you
+                </div>
+                <div class="card-body">
+                    {% if assigned_issues %}
+                        <div class="accordion" {{ stimulus_controller('tooltip-initialize') }}>
+                            {% for key, issue in assigned_issues %}
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ key }}">
+                                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseAssigned{{ key }}" aria-expanded="false" aria-controls="collapseAssigned{{ key }}">
+                                                <span class="badge rounded-pill me-2" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Status" style="background-color: {{ issue.status.color }} !important;">
+                                                    {{ issue.status.name }}
+                                                </span>
+                                                <span class="badge rounded-pill me-2" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Priority" style="background-color: {{ issue.priority.color }} !important;">
+                                                    {{ issue.priority.name }}
+                                                </span>
+                                                    {{ issue.title }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseAssigned{{ key }}" class="accordion-collapse collapse" aria-labelledby="heading{{ key }}">
+                                            <div class="accordion-body markdown-body" style="position: relative">
+                                                <a href={{ path('app_issue', {id: issue.id}) }} class="stretched-link"></a>
+                                                {{ issue.description|markdown_to_html }}
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                            <h1 class="display-6 text-muted text-center">None</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-12 mb-2">
+            <div class="card">
+                <div class="card-header">
+                    Recent comments
+                </div>
+                <div class="card-body">
+                    {% if recent_comments %}
+                            {% for key, comment in recent_comments %}
+                                <div class="card mb-4">
+                                    <div class="card-header text-muted fw-light">
+                                        <span>{{ comment.author.username }} added a comment to <a href={{ path('app_issue', {id: comment.issue.id, _fragment: 'comment-' ~ comment.id}) }} class="link-secondary">issue {{ comment.issue.id }}</a></span>
+                                        <span class="float-end text-muted fw-light">
+                                            {{ comment.createdAt|date }}
+                                        </span>
+                                    </div>
+                                    <div class="card-body markdown-body">
+                                        {{ comment.text|markdown_to_html }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                    {% else %}
+                            <h1 class="display-6 text-muted text-center">None</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="card">
+                <div class="card-header">
+                    Recent issues
+                </div>
+                <div class="card-body">
+                    {% if recent_issues %}
+                        <div class="accordion" {{ stimulus_controller('tooltip-initialize') }}>
+                            {% for key, issue in recent_issues %}
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ key }}">
+                                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseRecent{{ key }}" aria-expanded="false" aria-controls="collapseRecent{{ key }}">
+                                                <span class="badge rounded-pill me-2" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Status" style="background-color: {{ issue.status.color }} !important;">
+                                                    {{ issue.status.name }}
+                                                </span>
+                                                <span class="badge rounded-pill me-2" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Priority" style="background-color: {{ issue.priority.color }} !important;">
+                                                    {{ issue.priority.name }}
+                                                </span>
+                                                    {{ issue.title }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseRecent{{ key }}" class="accordion-collapse collapse" aria-labelledby="heading{{ key }}">
+                                            <div class="accordion-body markdown-body" style="position: relative">
+                                                <a href={{ path('app_issue', {id: issue.id}) }} class="stretched-link"></a>
+                                                {{ issue.description|markdown_to_html }}
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                            <h1 class="display-6 text-muted text-center">None</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

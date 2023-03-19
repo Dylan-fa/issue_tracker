@@ -1,0 +1,50 @@
+// I don't like the blue text when the accordian is open
+$accordion-button-active-color:  #000;
+// add more granularity to spacers
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+  3: ($spacer * .75),
+  4: $spacer,
+  5: ($spacer * 1.5),
+  6: ($spacer * 3)
+);
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "github-markdown-css/github-markdown.css";
+
+// add some breakpoints to viewport height
+$utilities: map-merge(
+  $utilities, (
+    "viewport-height": map-merge(
+      map-get($utilities, "viewport-height"),
+      ( responsive: true ),
+    ),
+  )
+);
+
+@import "bootstrap/scss/utilities/api";
+
+
+:target.comment {
+  outline: solid rgb(246, 246, 185);
+}
+
+.dropzone {
+  min-height: 10px;
+}
+.dropzone.dragged {
+  min-height: 80px;
+  background-color: #48de348b;
+}
+
+:not(:only-child)#form-empty {
+  display: none;
+}

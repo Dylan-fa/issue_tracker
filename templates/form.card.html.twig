@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="d-flex align-items-center justify-content-center vh-md-100">
+        <div class="border p-5 border-2 rounded-4 col bg-light col-md-6">
+            <span class="form-control-lg w-100">
+                <h1 class="display-6">{{ headerText }}</h1>
+                {% block form %}{% endblock %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

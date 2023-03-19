@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="justify-content-center row mt-2 ms-2 me-2">
+        <div class="col-md-5 col-12">
+            {{render_chart(status_chart)}}
+        </div>
+        <div class="col-md-5 col-12">
+            {{render_chart(priority_chart)}}
+        </div>
+    </div>
+{% endblock %}

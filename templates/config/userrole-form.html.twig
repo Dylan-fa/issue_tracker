@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <div class="row justify-content-center mt-2">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        {{ actionText }}
+                    </div>
+                    <div class="card-body">
+                        {% for type, messages in app.session.flashbag.all() %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {{ form_start(roleForm) }}
+                            {{ form_row(roleForm.user) }}
+                            {{ form_row(roleForm.submit, { 'label': actionText  }) }}
+                        {{form_end(roleForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

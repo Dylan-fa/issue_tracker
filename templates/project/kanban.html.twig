@@ -1,0 +1,66 @@
+{% extends '/project/card.nav.html.twig' %}
+
+{% block content %}
+    <div {{ stimulus_controller('kanban tooltip-initialize') }}>
+        <button class="btn btn-outline-secondary float-end" data-bs-toggle="modal" data-bs-target="#addColumnModal">
+            <i class="bi bi-plus"></i>
+            Add column
+        </button>
+        <div class="modal fade modal-xl" id="addColumnModal" tabindex="-1" aria-labelledby="addColumnModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addColumnModalLabel">Add column</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(addColumnForm) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-xl" id="addIssueModal" tabindex="-1" aria-labelledby="addIssueModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addIssueModalLabel">Add issue</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(addIssueForm) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-md" id="removeIssueModal" tabindex="-1" aria-labelledby="removeIssueModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="removeIssueModalLabel">Remove issue</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove this issue from this column?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" {{ stimulus_action('kanban', 'removeIssue', 'click') }}>Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>          
+        <div class="container-fluid">
+            <div class="row">
+                {% for column in project.columns %}
+                    {% include '/project/kanban.column.html.twig' with {column: column} %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<div {{ stimulus_controller('markdown') }}>
+    {{ form_start( issueForm ) }}
+        {{ form_row( issueForm.title, {'attr': {'data-action': 'input->title-edit#render'}}) }}
+        {{ form_row( issueForm.description, {'attr': {'data-markdown-target': 'field'}} ) }}
+        <button class="btn btn-sm mb-2 btn-success" type="button" data-bs-toggle="modal" data-bs-target="#previewModal">
+            Preview markdown
+        </button>
+        <span class='fs-6 ms-3 form-text'>Help with markdown? 
+            <a href=https://github.github.com/gfm/>GitHub flavored markdown specification</a>
+        </span>
+        {{ form_rest( issueForm ) }}
+    {{ form_end( issueForm ) }}
+
+    {% include 'markdown_modal.html.twig' %}
+</div>

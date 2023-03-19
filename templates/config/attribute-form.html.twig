@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% macro renderCollectionRow(row, index, name) %}
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ name }} {{ index }}
+            <button type="button" class="float-end btn-close" aria-label="Close" data-action="click->issue-attribute-config#delete"></button>
+        </div>
+        <div class="card-body">
+            {{ form_row(row) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block body %}
+        <div class="row justify-content-center mt-2">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        Configure issue {{ name }}
+                    </div>
+                    <div class="card-body" {{ stimulus_controller('issue-attribute-config') }}>
+                        {% for type, messages in app.session.flashbag.all() %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {{ form_start(attributeForm) }}
+                            <div id="form-collection" data-prototype="{{ _self.renderCollectionRow(attributeForm.attributes.vars.prototype, '__name__', name)|escape('html_attr') }}">
+                                <div id="form-empty" class="text-muted mb-3">None</div>
+                                {% for index, row in attributeForm.attributes %}
+                                    {{ _self.renderCollectionRow(row, index + 1, name) }}
+                                {% endfor %}
+                            </div>
+                            {{ form_row(attributeForm.add) }}
+                        {{ form_end(attributeForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

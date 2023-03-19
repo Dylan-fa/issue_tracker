@@ -1,0 +1,39 @@
+<div class="card mb-2">
+    <div class="card-header fw-semibold" style="background-color: #fb9a333b;">
+        Author
+    </div>
+    <div class="card-body">
+        {{ issue.author.username }}
+    </div>
+</div>
+{% if issue.assignee != null %}
+    <div class="card mb-2">
+        <div class="card-header fw-semibold" style="background-color: #fb9a333b;">
+            Assigned to
+        </div>
+        <div class="card-body">
+            {{ issue.assignee.username }}
+        </div>
+    </div>
+{% endif %}
+<div class="card mb-2">
+    <div class="card-header fw-semibold" style="background-color: #fb9a333b;">
+        Created at
+    </div>
+    <div class="card-body">
+        {{ issue.createdAt|date }}
+    </div>
+</div>
+<div class="card mb-2">
+    <div class="card-header fw-semibold" style="background-color: #fb9a333b;">
+        Tags
+    </div>
+    <div class="card-body">
+        {% if issue.tags|length == 0 %}
+            <h6 class="text-muted text-center">None</h6>
+        {% endif %}
+        {% for tag in issue.tags %}
+            <a href={{ path('app_project', {id: tag.id}) }} class="badge bg-secondary text-decoration-none link-light">{{ tag.name }}</a>
+        {% endfor %}
+    </div>
+</div>

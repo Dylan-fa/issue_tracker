@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if comments %}
+        <div class="row justify-content-center mt-2">
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Results
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion">
+                            {% for comment in comments %}
+                                <div class="card mb-4">
+                                    <div class="card-header text-muted fw-light">
+                                        <span>{{ comment.username }} added a comment to <a href={{ path('app_issue', {id: comment.issue_id, _fragment: 'comment-' ~ comment.id}) }} class="link-secondary">issue {{ comment.issue_id }}</a></span>
+                                        <span class="float-end text-muted fw-light">
+                                            {{ comment.created_at|date }}
+                                        </span>
+                                    </div>
+                                    <div class="card-body markdown-body">
+                                        {{ comment.text|markdown_to_html }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center vh-100">
+            <h1 class="display-6">No comments found</h1>
+        </div>
+    {% endif %}
+{% endblock %}

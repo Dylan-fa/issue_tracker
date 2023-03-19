@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set route = app.request.attributes.get('_route') %}
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item" >
+                    <a class="nav-link {{ (route == 'app_project') ? 'active' : '' }}" href={{ path('app_project', {'id': project.id}) }}>Project</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (route == 'app_project_kanban') ? 'active' : '' }}" href={{ path('app_project_kanban', {'id': project.id}) }}>Kanban</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (route == 'app_project_edit') ? 'active' : '' }}" href={{ path('app_project_edit', {'id': project.id}) }}>Edit</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body" {{ (route == 'app_project_edit') ? stimulus_controller('title-edit') : '' }}>
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <h5 class="card-title fs-4 fw-bold mb-3" {{ (route == 'app_project_edit') ? stimulus_target('title-edit', 'title') : '' }}>{{ project.name }}</h5>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

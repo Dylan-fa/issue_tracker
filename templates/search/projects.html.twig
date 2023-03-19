@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if projects %}
+        <div class="row justify-content-center mt-2">
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Results
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion">
+                            {% for key, project in projects %}
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ key }}">
+                                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse{{ key }}" aria-expanded="false" aria-controls="collapse{{ key }}">
+                                                    {{ project.name }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse{{ key }}" class="accordion-collapse collapse" aria-labelledby="heading{{ key }}">
+                                            <div class="accordion-body markdown-body" style="transform: rotate(0);">
+                                                <a href={{ path('app_project', {id: project.id}) }} class="stretched-link"></a>
+                                                {{ project.description|markdown_to_html }}
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center vh-100">
+            <h1 class="display-6">No projects found</h1>
+        </div>
+    {% endif %}
+{% endblock %}

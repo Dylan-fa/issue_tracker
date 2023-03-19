@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set route = app.request.attributes.get('_route') %}
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item" >
+                    <a class="nav-link {{ (route == 'app_issue') ? 'active' : '' }}" href={{ path('app_issue', {'id': issue.id}) }}>Issue</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (route == 'app_issue_edit') ? 'active' : '' }}" href={{ path('app_issue_edit', {'id': issue.id}) }}>Edit</a>
+                </li>
+                {% if route == 'app_issue' %}
+                    <li class="nav-item" {{ stimulus_controller('tooltip-initialize') }}>
+                        <span class="badge rounded-pill ms-3 mt-3" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Status" style="background-color: {{ issue.status.color }} !important;">
+                            {{ issue.status.name }}
+                        </span>
+                        <span class="badge rounded-pill ms-2 mt-3" {{ stimulus_target('tooltip-initialize', 'tooltip') }} data-bs-placement="top" title="Priority" style="background-color: {{ issue.priority.color }} !important;">
+                            {{ issue.priority.name }}
+                        </span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="card-body" {{ (route == 'app_issue_edit') ? stimulus_controller('title-edit') : '' }}>
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <h5 class="card-title fs-4 fw-bold" {{ (route == 'app_issue_edit') ? stimulus_target('title-edit', 'title') : '' }}>{{ issue.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted mb-4">Issue {{ issue.id }}</h6>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-flex align-items-center justify-content-center vh-md-100">
+        <div class="border p-5 border-2 rounded-4 col bg-light col-md-6">
+            <span class="form-control-lg w-100">
+                <h1 class="display-6">Disabled</h1>
+                Your account has been disabled by an administrator
+                <form action={{ path('app_logout') }} method="post" id="form-button-logout">
+                    <input type="hidden" name="_csrf_token" value={{ csrf_token('logout') }} id="csrf-token"/>
+                    <button type="submit" class="btn btn-outline-secondary mt-2" for="csrf-token">Log out</a>
+                </form>
+            </span>
+        </div>
+    </div>
+{% endblock %}

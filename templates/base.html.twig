@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='maximum-scale=1.0, initial-scale=1.0, width=device-width' name='viewport'>
+        <meta charset="UTF-8">
+        <title>{% block title %}Issue Tracker{% endblock %}</title>
+
+
+        
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body style="background-color:#d9d9d9b8;">
+        {% block navbar %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="mx-auto order-1">
+                    <a class="navbar-brand mx-auto fs-2" style="color:#00cfff;" href={{ path("app_home") }}><span class="fw-bold">Issue</span> ➤<span class="fw-bold fst-italic">Tracker</span></a>
+                    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#dropdownContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse w-100 order-2 my-2 order-lg-0" id="dropdownContent">
+                    <form class="me-auto d-flex" action="/search/issues" method="get" {{ stimulus_controller('search') }}>
+                        <div class="ms-2 me-2 input-group">
+                            <button class="btn btn-light dropdown-toggle" id="search-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Issues</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" {{ stimulus_action('search', 'update', 'click') }}>Issues</a></li>
+                                <li><a class="dropdown-item" href="#" {{ stimulus_action('search', 'update', 'click') }}>Comments</a></li>
+                                <li><a class="dropdown-item" href="#" {{ stimulus_action('search', 'update', 'click') }}>Projects</a></li>
+                            </ul>
+                            <input class="form-control" id="search-bar" type="search" name="search" placeholder="Search for Issues" value="{{ searchValue ?? '' }}" aria-label="Search">
+                            <button class="btn btn-success" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="navbar-collapse collapse my-2 w-100 order-3" id="dropdownContent">
+                    <ul class="navbar-nav ms-auto"> 
+                        <li class="nav-item ms-3 me-2">
+                            <a class="nav-link" href={{ path("app_statistics") }}>Statistics</a>
+                        </li>      
+                        {% if app.user %}
+                            <li class="nav-item ms-3 me-2">
+                                <a class="nav-link" href={{ path("app_config") }}>Config</a>
+                            </li>    
+                            <li class="nav-item dropdown ms-3 me-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    New
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href={{ path('app_issue_create') }}>Issue</a></li>
+                                    <li><a class="dropdown-item" href={{ path('app_project_create') }}>Project</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item ms-3 me-2">
+                                <a class="nav-link" href='/undefined'>{{ app.user.username }}</a>
+                            </li>
+                            <li class="nav-item ms-3 me-2">
+                                <form action={{ path('app_logout') }} method="post" id="form-button-logout">
+                                    <input type="hidden" name="_csrf_token" value={{ csrf_token('logout') }} id="csrf-token"/>
+                                    <button style="background-color: transparent; border: none;" type="submit" class="nav-link" for="csrf-token">Log out</a>
+                                </form>
+                            </li>
+                        {% elseif app.user == null %}
+                            <li class="nav-item ms-3 me-2">
+                                <a class="nav-link" href={{ path("app_login") }}>Log in</a>
+                            </li>
+                            <li class="nav-item ms-3 me-2">
+                                <a class="nav-link" href={{ path("app_signup") }}>Sign up</a>
+                            </li>
+                        {% endif %}         
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
+        {% block body %}{% endblock %}
+    </body>
+</html>
