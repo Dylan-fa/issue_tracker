@@ -18,7 +18,7 @@ $spacers: (
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
-@import "github-markdown-css/github-markdown.css";
+@import "github-markdown-css/github-markdown-light.css";
 
 // add some breakpoints to viewport height
 $utilities: map-merge(
