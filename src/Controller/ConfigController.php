@@ -32,7 +32,7 @@ class ConfigController extends AbstractController
     public function processIssueAttributeEdit(Request $request, EntityManagerInterface $em, IssueAttributeRepositoryInterface $repository, $name): Response
     {
         $attributes = $repository->findAll();
-        $issueAtrributeForm = $this->createForm(IssueAtrributeConfigFormType::class, [], ['attribute_data' => $attributes]);
+        $issueAtrributeForm = $this->createForm(IssueAtrributeConfigFormType::class, [], ['attribute_data' => $attributes, 'attribute_class' => "App\Entity\\$name"]);
         $issueAtrributeForm->handleRequest($request);
         $newAttributes = $issueAtrributeForm->get('attributes')->getData();
         if ($issueAtrributeForm->isSubmitted() && $issueAtrributeForm->isValid()) {   
@@ -49,7 +49,7 @@ class ConfigController extends AbstractController
                     elseif($oldAttribute->getIssues()->count() !== 0) {
                         $error = new FormError('This ' . strtolower($name) . ' failed to delete because it is in use by an issue. Remove uses of this ' . strtolower($name) . ' to delete it.');
                         // Recreate form with error, don't flush changes
-                        $issueAtrributeForm = $this->createForm(IssueAtrributeConfigFormType::class, [], ['attribute_data' => $attributes]);
+                        $issueAtrributeForm = $this->createForm(IssueAtrributeConfigFormType::class, [], ['attribute_data' => $attributes, 'attribute_class' => "App\Entity\\$name"]);
                         $issueAtrributeForm->get('attributes')->get(array_search($oldAttribute, $attributes, true))->addError($error);
                         return $this->render('config/attribute-form.html.twig', [
                             'attributeForm' => $issueAtrributeForm->createView(),

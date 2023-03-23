@@ -20,7 +20,7 @@ class IssueAtrributeConfigFormType extends AbstractType
                     'entry_options' => [
                         'label' => false,
                         'error_bubbling' => false,
-                        'data_class' => get_class($options['attribute_data'][0])
+                        'data_class' => $options['attribute_class']
                     ],
                     'data' => $options['attribute_data'],
                     'allow_add' => true,
@@ -39,7 +39,8 @@ class IssueAtrributeConfigFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'attribute_data' => [],
+            'attribute_class' => [],
+            'attribute_data' => []
         ]);
     }
 }
