@@ -41,7 +41,12 @@ class PromoteAdminCommand extends Command
 
         $roles = $user->getRoles();
 
-        $roles = array_diff($roles, ['ROLE_ADMIN']);
+        if (in_array('ROLE_ADMIN', $roles)) {
+            $io->error("$username is already an administrator");
+            return Command::FAILURE;
+        }
+
+        $roles[] = 'ROLE_ADMIN';
 
         $user->setRoles($roles);
 
